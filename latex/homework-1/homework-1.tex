@@ -1,5 +1,6 @@
 \documentclass[a4paper,12pt]{article}
-
+\usepackage{float,amsfonts,amsthm,amsmath,amssymb,wasysym,graphicx,tikz,textcomp,pgf,mathrsfs,verbatim, graphicx, ifthen, enumitem, pifont,fancyhdr, blindtext, lipsum,xcolor,hyperref,fixmath}
+\usepackage[makeroom]{cancel}
 \input{common.tex}
 
 \begin{document}
@@ -16,28 +17,97 @@
 \clearpage
 
 \subsection*{Task 1}
-
-TBD
+Let $\omega$ be any eigenvalue of A and let x be an eigenvector corresponding to $\lambda$. Then 
+\begin{equation*}
+\cfrac{\|Ax\|}{\|x\|}=\cfrac{\|\lambda x\|}{\|x\|}=\cfrac{ |\lambda|\cancel{\|x\|}}{\cancel{\|x\|}}=\lambda.
+\end{equation*}
+Hence $|\lambda| \le \|A\|$ for all eigenvalues and in particular,
+\begin{equation*}
+\rho\left(A\right) \overset{\text{def.}}{=} \overset{\rho}{\underset{i=1}{\max}}|\lambda| \le \|A\|.
+\end{equation*}
 
 \subsection*{Task 2}
+From $\|AB\| \le \|A\|\|B\|$, it follows that $\|A^n\|\le \|A\|^n \rightarrow 0$. 
 
-TBD
+Hence $\lim\limits_{n\rightarrow \infty }A^n=0$.
 
 \subsection*{Task 3}
+\begin{itemize}
+	\item [1.]
+	\begin{align*}
+	\|x\|_\infty&=\underset{i\le n}{\max} |x_i|\\
+	&=|x_i|\\
+	&=\sqrt{x_j^2}\\
+	&=\sqrt{x_1^2 + x_2^2+...+x_n^2}
+	\end{align*}
+	
+	\item [2.]
+	\begin{align*}
+	\|x\|_2&=\sqrt{\sum_{i=1}^n x_j^2}=\sqrt{n x_j^2}\\
+	&\le\sqrt{n}|x_j|\\
+	&=\sqrt{n}\|x\|_\infty.
+	\end{align*}
+	\item [3.]
+	\begin{align*}
+	\|A\|_\infty &=\underset{\|x\|=1}{\max} \|Ax\|_\infty \\
+	&=\underset{\|x\|=1}{\max} \|Ax\|_2\\
+	&=\|A\|_2\le \sqrt{n}\|A\|_2.
+	\end{align*}
+	
+	\item [4.]
+	\begin{align*}
+	\|A\|_2&=\underset{\|x\|=1}{\max}\|Ax\|_2 \\
+	&\le \underset{\|x\|=1}{\max} \sqrt{n}\|Ax\|_\infty \\
+	&= \|Ax\|_\infty.
+	\end{align*}
+\end{itemize}
 
-TBD
+
 
 \subsection*{Task 4}
+We have that 
+\begin{equation*}
+\cfrac{\|Ax\|_2}{\|x\|_2}\le \|A\|_2,
+\end{equation*}
+for all $x\in \mathbb{R}^n$.
+\begin{equation*}
+\cfrac{\|Aa\|_2}{\|a\|_2}=\cfrac{\|\sqrt{\sum_{i=1}^{n} a_i^2}\|_2}{\sqrt{\sum_{i=1}^{n} a_i^2}}=\sqrt{\sum_{i=1}^{n} a_i^2}= \|a\|_2,
+\end{equation*}
+whence, $\|a\|_2\le \|A\|_2$.
+We have also that
+\begin{equation*}
+\cfrac{\|Ax\|_2}{\|x\|_2}=\cfrac{\|a^Tx\|_2}{\|x\|_2}\overset{\text{C-S}}{\le} \cfrac{\|a\|_2 \|x\|_2}{\|x\|_2}.
+\end{equation*}
+Hence, $\|A\|_2= \|a\|$.
 
-TBD
-
+Now we will try to show the same theorem but for the 1-norm.
+\begin{align*}
+\|A\|_1&=\underset{x\in S^n}{\max} \|Ax\|_1\\
+&=\underset{x\in S^n}{\max} \left| \sum_{i=1}^{n}a_i x_i\right|\\
+&\le\underset{x\in S^n}{\max} \sum_{i=1}^{n}|a_j||x_i|\\
+&\le\underset{1\le i \le n}{\max}|a_i|.
+\end{align*}
+And we also have that
+\begin{equation*}
+\|Ae_i\|_1=|a_i|\le \|A\|_1.
+\end{equation*}
+Hence, $ \|A\|_1=\underset{1\le i \le n}{\max} |a_i|$. And now set $A= \|[1 2]\|$ and $a=\|(1,2)\|$, whence $\|A\|_1\not= \|a\|_1$.
 \subsection*{Task 5}
-
-TBD
-
+Let $\varepsilon >0$ be given. We want $ \left| \|x\|_B-\|y\|_B\right|<\varepsilon $ whenever $\|x-y\|_1<\delta $, for some $\delta >0$. From the reverse triangle inequality we get that 
+\begin{equation*}
+\|x-y\|<\delta \Leftrightarrow \sum_{i=1}^{n} |x_i-y_i|<\delta,
+\end{equation*}
+whence $|x_i-y_i|<\delta$ for all $i$.
+We have also that $\|e_i\|=r_i$, and
+\begin{equation*}
+\|x\|_B=\|\sum x_i e_i\|_B\le \sum_{i=1}^{n} r_i |x_i|.
+\end{equation*}
+So we get that,
+\begin{equation*}
+\|x-y\|_B\le \sum_{i=1}^{n} r_i|x_i-y_i|=R\delta.
+\end{equation*}
 \subsection*{Task 6}
 
-TBD
 
 \subsection*{Task 7}
 
