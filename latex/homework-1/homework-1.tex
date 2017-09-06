@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt]{article}
-\usepackage{float,amsfonts,amsthm,amsmath,amssymb,wasysym,graphicx,tikz,textcomp,pgf,mathrsfs,verbatim, graphicx, ifthen, enumitem, pifont,fancyhdr, blindtext, lipsum,xcolor,hyperref,fixmath}
-\usepackage[makeroom]{cancel}
-\input{common.tex}
+
+\input{../common/common.tex}
+
 
 \begin{document}
 
@@ -16,17 +16,25 @@
 \maketitle
 \clearpage
 
+
 \subsection*{Task 1}
-Let $\omega$ be any eigenvalue of A and let x be an eigenvector corresponding to $\lambda$. Then 
-\begin{equation*}
-\cfrac{\|Ax\|}{\|x\|}=\cfrac{\|\lambda x\|}{\|x\|}=\cfrac{ |\lambda|\cancel{\|x\|}}{\cancel{\|x\|}}=\lambda.
-\end{equation*}
-Hence $|\lambda| \le \|A\|$ for all eigenvalues and in particular,
-\begin{equation*}
-\rho\left(A\right) \overset{\text{def.}}{=} \overset{\rho}{\underset{i=1}{\max}}|\lambda| \le \|A\|.
-\end{equation*}
+
+Let \(\lambda\) be the largest eigenvalue of \(A\) and let \(v\) be an
+eigenvector corresponding to \(\lambda\).
+The result follows from
+\[
+  \rho(A)
+    = |\lambda|
+    = \frac{|\lambda|\|v\|}{\|v\|}
+    = \frac{\|\lambda v\|}{\|v\|}
+    = \frac{\|Av\|}{\|v\|}
+    \le \sup_{x \ne 0} \frac{\|Ax\|}{\|x\|}
+    = \|A\|.
+\]
+
 
 \subsection*{Task 2}
+
 From $\|AB\| \le \|A\|\|B\|$, it follows that $\|A^n\|\le \|A\|^n \rightarrow 0$. 
 
 Hence $\lim\limits_{n\rightarrow \infty }A^n=0$.
