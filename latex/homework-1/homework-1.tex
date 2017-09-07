@@ -39,86 +39,163 @@ From $\|AB\| \le \|A\|\|B\|$, it follows that $\|A^n\|\le \|A\|^n \rightarrow 0$
 
 Hence $\lim\limits_{n\rightarrow \infty }A^n=0$.
 
-\subsection*{Task 3}
-\begin{itemize}
-	\item [1.]
-	\begin{align*}
-	\|x\|_\infty&=\underset{i\le n}{\max} |x_i|\\
-	&=|x_i|\\
-	&=\sqrt{x_j^2}\\
-	&=\sqrt{x_1^2 + x_2^2+...+x_n^2}
-	\end{align*}
-	
-	\item [2.]
-	\begin{align*}
-	\|x\|_2&=\sqrt{\sum_{i=1}^n x_j^2}=\sqrt{n x_j^2}\\
-	&\le\sqrt{n}|x_j|\\
-	&=\sqrt{n}\|x\|_\infty.
-	\end{align*}
-	\item [3.]
-	\begin{align*}
-	\|A\|_\infty &=\underset{\|x\|=1}{\max} \|Ax\|_\infty \\
-	&=\underset{\|x\|=1}{\max} \|Ax\|_2\\
-	&=\|A\|_2\le \sqrt{n}\|A\|_2.
-	\end{align*}
-	
-	\item [4.]
-	\begin{align*}
-	\|A\|_2&=\underset{\|x\|=1}{\max}\|Ax\|_2 \\
-	&\le \underset{\|x\|=1}{\max} \sqrt{n}\|Ax\|_\infty \\
-	&= \|Ax\|_\infty.
-	\end{align*}
-\end{itemize}
+TBD: we must prove that if the norm tends to zero, then so does the
+entries
 
+
+\subsection*{Task 3}
+
+In this task, \(x = (x_1,x_2,\dots,x_n)\) and
+\(j = \argmax_{1 \le i \le n} |x_i|\).
+Then
+\[ \|x\|_\infty = \max_{1 \le i \le n} |x_i| = |x_j|. \]
+
+TBD: Exercises 3 and 4 are wrong since the maximum operates on different
+sets.
+
+\begin{enumerate}
+  \item
+    The inequality follows from
+    \[
+      |x_j|
+        = \sqrt{x_j^2}
+        \le \left(\sum_{i=1}^n x_i^2\right)^{1/2}
+        = \|x\|_2.
+    \]
+
+  \item
+    This follows from
+    \[
+      \|x\|_2
+        = \left(\sum_{i=1}^n x_i^2\right)^{1/2}
+        \le \left(\sum_{i=1}^n x_j^2\right)^{1/2}
+        = \sqrt{nx_j^2}
+        = \sqrt{n}|x_j|
+        = \sqrt{n}\|x\|_\infty.
+    \]
+
+  \item
+    The maximum preserves inequalities, so by 1 we have:
+    \[
+      \|A\|_\infty
+        = \max_{\|x\| = 1} \|Ax\|_\infty
+        \le \max_{\|x\| = 1} \|Ax\|_2
+        = \|A\|_2,
+    \]
+    and obviously \(\|A\|_2 \le \sqrt{n}\|A\|_2\).
+
+  \item
+    Again by the fact that the maximum preserves inequalities, 2 gives
+    \begin{align*}
+      \|A\|_2
+      &= \max_{\|x\| = 1} \|Ax\|_2 \\
+      &\le \max_{\|x\| = 1} \sqrt{n}\|Ax\|_\infty \\
+      &= \sqrt{n} \max_{\|x\| = 1} \|Ax\|_\infty \\
+      &= \sqrt{n} \|Ax\|_\infty.
+    \end{align*}
+\end{enumerate}
 
 
 \subsection*{Task 4}
-We have that 
-\begin{equation*}
-\cfrac{\|Ax\|_2}{\|x\|_2}\le \|A\|_2,
-\end{equation*}
-for all $x\in \mathbb{R}^n$.
-\begin{equation*}
-\cfrac{\|Aa\|_2}{\|a\|_2}=\cfrac{\|\sqrt{\sum_{i=1}^{n} a_i^2}\|_2}{\sqrt{\sum_{i=1}^{n} a_i^2}}=\sqrt{\sum_{i=1}^{n} a_i^2}= \|a\|_2,
-\end{equation*}
-whence, $\|a\|_2\le \|A\|_2$.
-We have also that
-\begin{equation*}
-\cfrac{\|Ax\|_2}{\|x\|_2}=\cfrac{\|a^Tx\|_2}{\|x\|_2}\overset{\text{C-S}}{\le} \cfrac{\|a\|_2 \|x\|_2}{\|x\|_2}.
-\end{equation*}
-Hence, $\|A\|_2= \|a\|$.
 
-Now we will try to show the same theorem but for the 1-norm.
-\begin{align*}
-\|A\|_1&=\underset{x\in S^n}{\max} \|Ax\|_1\\
-&=\underset{x\in S^n}{\max} \left| \sum_{i=1}^{n}a_i x_i\right|\\
-&\le\underset{x\in S^n}{\max} \sum_{i=1}^{n}|a_j||x_i|\\
-&\le\underset{1\le i \le n}{\max}|a_i|.
-\end{align*}
-And we also have that
-\begin{equation*}
-\|Ae_i\|_1=|a_i|\le \|A\|_1.
-\end{equation*}
-Hence, $ \|A\|_1=\underset{1\le i \le n}{\max} |a_i|$. And now set $A= \|[1 2]\|$ and $a=\|(1,2)\|$, whence $\|A\|_1\not= \|a\|_1$.
+Let
+\[
+  a = (a_1, a_2, \dots, a_n)
+  \quad \text{and} \quad
+  A =
+    \begin{bmatrix}
+      a_1 & a_2 & \cdots & a_n
+    \end{bmatrix}.
+\]
+By definition we have that
+\[ \frac{\|Ax\|_2}{\|x\|_2} \le \|A\|_2, \]
+for all \(x\in \mathbb{R}^n\).
+Because \(\|r\|_2 = |r|\) for all \(r \in \mathbb{R}\) we have
+\[
+  \cfrac{\|Aa\|_2}{\|a\|_2}
+    = \frac{\|\sum_{i=1}^n a_i^2\|_2}{\sqrt{\sum_{i=1}^n a_i^2}}
+    = \left(\sum_{i=1}^{n} a_i^2\right)^{1/2}
+    = \|a\|_2,
+\]
+whence, \(\|a\|_2\le \|A\|_2\).
+An application of the Cauchy-Schwarz inequality gives
+\[
+  \frac{\|Ax\|_2}{\|x\|_2}
+    = \frac{\|(a,x)\|_2}{\|x\|_2}
+    \le \frac{\|a\|_2 \|x\|_2}{\|x\|_2}
+    = \|a\|_2.
+\]
+Hence, \(\|A\|_2= \|a\|_2\).
+
+The same result hold for the 1-norm.
+Firstly
+\[
+  \|A\|_1
+    = \max_{\|x\|_1 = 1} \|Ax\|_1\\
+    = \max_{\|x\|_1 = 1} \left| \sum_{i=1}^n a_i x_i\right|
+    \le \max_{\|x\|_1 = 1} \sum_{i=1}^n |a_i||x_i|
+    \le \max_{1 \le i \le n} |a_i|,
+\]
+and secondly
+\[ \|Ae_i\|_1 = \|a_i\|_1 = |a_i| \le \|A\|_1, \quad 1 \le i \le n. \]
+Hence, $ \|A\|_1=\underset{1\le i \le n}{\max} |a_i|$.
+
+Consider
+\[
+  a = (1, 2)
+  \quad \text{and} \quad
+  A =
+    \begin{bmatrix}
+      1 & 2
+    \end{bmatrix}.
+\]
+We have
+\[
+  \|A\|_\infty
+    = \max_{\|x\|_\infty = 1} \|Ax\|_\infty
+    \ge \|1 \cdot 1 + 2 \cdot 1\|_\infty
+    = 3,
+\]
+but \(\|a\|_\infty = 2\), showing that \(\|A\|_\infty \ne
+\|a\|_\infty\).
+Thus, the result is not true of the \(\infty\)-norm.
+
+
 \subsection*{Task 5}
-Let $\varepsilon >0$ be given. We want $ \left| \|x\|_B-\|y\|_B\right|<\varepsilon $ whenever $\|x-y\|_1<\delta $, for some $\delta >0$. From the reverse triangle inequality we get that 
-\begin{equation*}
-\|x-y\|<\delta \Leftrightarrow \sum_{i=1}^{n} |x_i-y_i|<\delta,
-\end{equation*}
-whence $|x_i-y_i|<\delta$ for all $i$.
-We have also that $\|e_i\|=r_i$, and
-\begin{equation*}
-\|x\|_B=\|\sum x_i e_i\|_B\le \sum_{i=1}^{n} r_i |x_i|.
-\end{equation*}
-So we get that,
-\begin{equation*}
-\|x-y\|_B\le \sum_{i=1}^{n} r_i|x_i-y_i|=R\delta.
-\end{equation*}
+
+Let \(\varepsilon > 0\) be given.
+We want \(\left|\|x\|_\beta - \|y\|_\beta\right| < \varepsilon\)
+whenever \(\|x-y\|_1 < \delta\), for some \(\delta > 0\).
+Let
+\[ R = \max_{1 \le i \le n} \|e_i\|_\beta. \]
+Now
+\[
+  \|x\|_\beta
+    = \left\|\sum_{i=1}^n x_i e_i\right\|_\beta
+    \le \sum_{i=1}^n \|x_i e_i\|_\beta
+    = \sum_{i=1}^n |x_i| \|e_i\|_\beta
+    \le R \sum_{i=1}^n |x_i|
+    = R \|x\|_1.
+\]
+Whenever \(\|x-y\|_1 < \frac{\varepsilon}{R}\), we have by the reversed
+triangle inequality that
+\[
+  \left|\|x\|_\beta - \|y\|_\beta\right|
+    \le \|x - y\|_\beta
+    \le R \|x - y\|_1
+    < \varepsilon,
+\]
+so \(\delta = \varepsilon/R\) suffices.
+
+
 \subsection*{Task 6}
+
+TBD
 
 
 \subsection*{Task 7}
 
 TBD
+
 
 \end{document}
