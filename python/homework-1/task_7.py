@@ -2,7 +2,7 @@ import numpy as np
 import numpy.linalg as nl
 import scipy.linalg as sl
 
-u = np.array([2,3,5,7,11,])
+u = np.array([2,3,5,7,11])
 v = np.array([3,1,4])
 A = np.outer(u, v)
 
