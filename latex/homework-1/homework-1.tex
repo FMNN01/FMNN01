@@ -40,12 +40,61 @@ The result follows from
 
 \subsection*{Task 2}
 
-From $\|AB\| \le \|A\|\|B\|$, it follows that $\|A^n\|\le \|A\|^n \rightarrow 0$. 
+If \(A\) is diagonalizable we can use the fact that all eigenvalues are less
+than \(1\) and use
+\[ \lim_{n \to \infty} A^n = \lim_{n \to \infty} XD^nX^{-1} = 0, \]
+where the last follows from the fact that
+\[
+  D^n
+    = \mathrm{diag}(\lambda_1^n, \lambda_2^n, \dots, \lambda_m^n)
+    \to \mathrm{diag}(0, 0, \dots, 0)
+    = 0
+\]
+as \(n \to \infty\).
 
-Hence $\lim\limits_{n\rightarrow \infty }A^n=0$.
+We now laborously show the result for the general case.
+Because \(\|\cdot\|\) is an operator norm we have
+\[ \|AB\| \le \|A\|\|B\|. \]
+Induction gives
+\[ \|A^n\| \le \|A\|^n, \]
+so
+\[ \lim_{n \to \infty} \|A^n\| = 0. \]
 
-TBD: we must prove that if the norm tends to zero, then so does the
-entries
+The result now follows from the next proposition.
+
+\begin{proposition}
+  Let \((A_n)_{n=1}^\infty\) be a sequence of matrices.
+  If \(\lim_{n \to \infty} \|A_n\| \to 0\), then
+  \(\lim_{n \to \infty} A_n = 0\).
+\end{proposition}
+\begin{proof}
+  Suppose toward a contradiction that \(A_n \not \to 0\) as \(n \to \infty\).
+  Denote by \(a_{ij}^{(n)}\) the entry on row \(i\) and column \(j\) of \(A_n\).
+  Then for some \(i\) and \(j\) there exists an \(\varepsilon > 0\) such that
+  regardless of \(N\) there is an \(n \ge N\) such that
+  \(|a_{ij}^{(n)}| \ge \varepsilon\).
+  By the equivalence of norms, we have that \(\|x\| \ge c\|x\|_\infty\) for all
+  \(x \in \mathbb{R}^m\) and some \(c > 0\).
+  Now we have
+  \begin{align*}
+    \|A_n e_j\|
+      &= \|(a^{(n)}_{1j}, a^{(n)}_{2j}, \dots, a^{(n)}_{mj})\| \\
+      &\ge c\|(a^{(n)}_{1j}, a^{(n)}_{2j}, \dots, a^{(n)}_{mj})\|_\infty \\
+      &= c \max_{1 \le k \le m} |a_{kj}^{(n)}| \\
+      &\ge c |a^{(n)}_{ij}| \\
+      &\ge c \varepsilon,
+  \end{align*}
+  but this shows that for all \(N\) there is \(n \ge N\) such that
+  \[
+    \|A_n\|
+      \ge \frac{\|A_n e_j\|}{\|e_j\|}
+      \ge d\epsilon
+  \]
+  where \(d = c/\|e_j\|\).
+  This is a contradiction, since \(\|A_n\| \to 0\) as \(n \to \infty\).
+  Therefore the assumption that \(A_n \not \to 0\) is false, completing the
+  proof.
+\end{proof}
 
 
 \subsection*{Task 3}
