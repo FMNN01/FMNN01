@@ -218,7 +218,3 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
-
-# python byte code
-*.pyc
-__pycache__
