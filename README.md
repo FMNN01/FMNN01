@@ -93,13 +93,13 @@ For example:
 \[
   \rho(A)
     = |\lambda|
-    = \cfrac{|\lambda|\|v\|}{\|v\|}
-    = \cfrac{\|\lambda v\|}{\|v\|}
-    = \cfrac{\|Av\|}{\|v\|}
-    \le \sup_{x \ne 0} \cfrac{\|Ax\|}{\|x\|}
+    = \frac{|\lambda|\|v\|}{\|v\|}
+    = \frac{\|\lambda v\|}{\|v\|}
+    = \frac{\|Av\|}{\|v\|}
+    \le \sup_{x \ne 0} \frac{\|Ax\|}{\|x\|}
     = \|A\|.
 \]
 ```
 
-[1] ftp://ftp.dante.de/tex-archive/info/l2tabu/german/l2tabu.pdf
+[1] ftp://ftp.dante.de/tex-archive/info/l2tabu/german/l2tabu.pdf  
 [2] https://tex.stackexchange.com/questions/510/are-and-preferable-to-dollar-signs-for-math-mode
