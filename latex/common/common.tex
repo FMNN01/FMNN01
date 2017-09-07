@@ -3,12 +3,27 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{fancyvrb}
+\usepackage{listings}
+
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
+\fvset{
+  fontsize=\footnotesize
+}
+\lstset{
+  backgroundcolor=\color{lightgray},
+  basicstyle=\footnotesize,
+  language=Python,
+}
 
 \newcommand{\argmax}{\mathrm{argmax}}
+\newcommand{\diag}{\mathrm{diag}}
 \newcommand{\rank}{\mathrm{rank}}
 
 \newtheorem{proposition}{Proposition}

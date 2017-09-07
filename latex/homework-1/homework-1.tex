@@ -45,8 +45,8 @@ than \(1\) and use
 where the last follows from the fact that
 \[
   D^n
-    = \mathrm{diag}(\lambda_1^n, \lambda_2^n, \dots, \lambda_m^n)
-    \to \mathrm{diag}(0, 0, \dots, 0)
+    = \diag(\lambda_1^n, \lambda_2^n, \dots, \lambda_m^n)
+    \to \diag(0, 0, \dots, 0)
     = 0
 \]
 as \(n \to \infty\).
@@ -271,7 +271,46 @@ Therefore \(\rank(A) \le 1\) and it follows that \(\rank(A) = 1\).
 
 \subsection*{Task 7}
 
-TBD
+Let \(u\) be an \(m\) vector and \(v\) an \(n\) vector.
+Define \(k = \min(m,n)\).
+Set \(u_1 = u/\|u\|\) and \(v_1 = v/\|v\|\).
+Extend \(u_1\) to a basis \(u_1, u_2, \dots, u_m\) for \(\mathbb{R}^m\) and
+extend \(v_1\) to a basis \(v_1, v_2, \dots, v_k\) for \(\mathbb{R}^k\).
+The reduced SVD is given by \(uv^T = \hat{U} \hat{\Sigma} V^T\), where
+\[
+  \hat{U} =
+    \begin{bmatrix}
+      u_1 & \cdots & u_k
+    \end{bmatrix}, \quad
+  \hat{\Sigma} = \diag(\|u\|\|v\|, 0, \dots, 0),\quad
+  V =
+    \begin{bmatrix}
+      v_1 & \cdots & v_k
+    \end{bmatrix}.
+\]
+Here \(\hat{U}\) is the matrix with \(u_1,\dots,u_k\) as columns,
+\(\hat{\Sigma}\) is an \(k \times k\) diagonal matrix and \(V\) is the matrix
+with \(v_1,\dots,v_k\) as columns.
+The full SVD is given by \(uv^T = U \Sigma V\) where
+\[
+  U =
+    \begin{bmatrix}
+      u_1 & \cdots & u_m
+    \end{bmatrix},\quad
+  \Sigma =
+    \begin{bmatrix}
+      \hat{\Sigma} \\
+      0
+    \end{bmatrix}.
+\]
+Here 0 is the \(m-k \times n\) matrix containing only zeroes.
 
+Below is a numeric example in python.
+The output of this example follows right after.
+Note that the output is as expected, but with a different sign on the vectors in
+both the \(U\) and \(V\) matrices.
+
+\lstinputlisting{../../python/homework-1/task_7.py}
+\VerbatimInput{../../python/homework-1/task_7.out}
 
 \end{document}
