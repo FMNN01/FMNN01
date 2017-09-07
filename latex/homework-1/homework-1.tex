@@ -244,7 +244,15 @@ so \(\delta = \varepsilon/R\) suffices.
 
 \subsection*{Task 6}
 
-TBD
+Let \(A = uv^T\)
+If either \(u = 0\) or \(v = 0\) then certainly \(\rank(A) = 0\).
+Therefore let \(u \ne 0\) and \(v \ne 0\).
+Then \(u\) and \(v\) have some non-zero entries \(u_i\) and \(v_j\), but this
+implies that \(u_i v_j\), which is the \(i,j\):th entry of \(A\), is non-zero,
+showing that \(A\) has rank at least \(1\).
+Any two columns \(v_j u\) and \(v_k u\) of \(A\) must be linearly dependent
+because they are parallel to each other.
+Therefore \(\rank(A) \le 1\) and it follows that \(\rank(A) = 1\).
 
 
 \subsection*{Task 7}
