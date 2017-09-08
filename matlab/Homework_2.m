@@ -21,6 +21,5 @@ for k=1:rowcol(2)
     end
 end
 %A
-
 A'*A
 det(A)
