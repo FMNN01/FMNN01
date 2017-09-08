@@ -1,4 +1,4 @@
-A=[1 3; 2 3];
+A=randi(1000,10,10);
 rowcol=size(A);
 veckholder=zeros(rowcol(2),1);
 for i=1:rowcol(2)
@@ -11,8 +11,17 @@ for i=1:rowcol(2)
         A(:,i)=A(:,i);
     end
     A(:,i)=A(:,i)+veckholder;
-    for k=1:rowcol(2)
+    
+end
+
+for k=1:rowcol(2)
+    if norm(A(:,k))==0
+        display('Division by zero')
+    else
         A(:,k)=A(:,k)/norm(A(:,k));
     end
 end
-A
+%A
+A'*A
+eig(A'*A)
+det(A)
