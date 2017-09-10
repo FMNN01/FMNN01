@@ -1,8 +1,8 @@
 %A=randi(1000,10,10);
-%[norm2, ident, eigval, determ]
-function a=gramschmidt(A)
+
+function [norm2, ident, eigval, determ]=gramschmidt(A)
     rowcol=size(A);
-    veckholder=zeros(rowcol(1),1);
+    veckholder=zeros(rowcol(2),1);
     for i=1:rowcol(2)
         %display(A(:,i));
         if i>=2
@@ -22,6 +22,9 @@ function a=gramschmidt(A)
             A(:,k)=A(:,k)/norm(A(:,k));
         end
     end
-    a=A
+    norm2=norm(A);
+    ident=norm(A'*A);
+    eigval=eig(A);
+    determ=det(A);
 end    
 
