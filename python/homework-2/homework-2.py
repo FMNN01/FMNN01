@@ -2,9 +2,6 @@ import numpy as np
 import numpy.linalg as nl
 import numpy.random as nr
 
-# Width of the first column when pretty-printing.
-WIDTH = 23
-
 class Orthogonalization:
     """
     Orthogonalize an (m,n), where m >= n, in different ways.
@@ -55,7 +52,7 @@ class Orthogonalization:
 
         return np.column_stack(Q_columns)
 
-    def qr(self):
+    def numpy(self):
         """
         Orthogonalize the matrix given to :meth:`__init__` using the QR
         factorization algorithm supplied by NumPy.
@@ -79,6 +76,9 @@ def random_bad_matrix(m, n):
     for j in range(n):
         A[:,j] *= randscale()
     return A
+
+# Width of the first column when pretty-printing.
+WIDTH = 23
 
 def test_result(message, value, expected):
     """
@@ -128,10 +128,10 @@ def test(method_name, A):
     if Q.shape[0] == Q.shape[1]:
         test_result("Determinant", abs(nl.det(Q)), 1)
     else:
-        print("  {}: not applicable".format("Determinant"))
+        print("  {}: not applicable".format("Determinant".rjust(WIDTH)))
 
 # List of method names to test.
-method_names = ["gramschmidt", "qr"]
+method_names = ["gramschmidt", "numpy"]
 
 BASE = 2
 PMAX = 11
