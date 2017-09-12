@@ -2,9 +2,60 @@ import numpy as np
 import numpy.linalg as nl
 import numpy.random as nr
 
+class QRFactorization:
+    """
+    QR factorize an (m,n) matrix in different ways.
+    """
+
+    def __init__(self, A):
+        """
+        Class initializer.
+
+        :param A: the matrix to QR factorize
+        :type A: np.ndarray or castable to such
+        """
+        if not isinstance(A, np.ndarray):
+            A = np.array(A)
+        self.A = A
+        self.m, self.n = A.shape
+
+    def numpy(self):
+        """
+        QR factorize the matrix given to :meth:`__init__` using the QR
+        factorization algorithm supplied by NumPy.
+        """
+        return nl.qr(self.A)
+
+# A list of implement QR factorization methods.
+qr_factorization_methods = [
+    "numpy"
+]
+
+class QROrthogonalizationWrapper:
+    """
+    An orthogonalization wrapper around the QR factorization class.
+    """
+
+    def __init__(self, qr_factorization, name):
+        """
+        Class initializer.
+
+        :param qr_factorization: the instance of QRFactorization to use
+        :type qr_factorization: QRFactorization
+        :param name: the name of the QR factorization method to wrap
+        :type name: string
+        """
+        self.method = getattr(qr_factorization, name)
+
+    def __call__(self):
+        """
+        Call this wrapper.
+        """
+        return self.method()[0]
+
 class Orthogonalization:
     """
-    Orthogonalize an (m,n), where m >= n, in different ways.
+    Orthogonalize an (m,n) in different ways.
     """
 
     def __init__(self, A):
@@ -18,6 +69,14 @@ class Orthogonalization:
             A = np.array(A)
         self.A = A
         self.m, self.n = A.shape
+
+        # Orthogonalization is a part of QR factorization so create
+        # wrappers for the implemented QR factorization methods.
+        qr_factorization = QRFactorization(A)
+        for method in qr_factorization_methods:
+            wrapper = QROrthogonalizationWrapper(
+                    qr_factorization, method)
+            setattr(self, method, wrapper)
 
     def gramschmidt(self):
         """
@@ -51,13 +110,6 @@ class Orthogonalization:
                 P -= np.outer(q, q)
 
         return np.column_stack(Q_columns)
-
-    def numpy(self):
-        """
-        Orthogonalize the matrix given to :meth:`__init__` using the QR
-        factorization algorithm supplied by NumPy.
-        """
-        return nl.qr(self.A)[0]
 
 def randscale():
     """
@@ -131,23 +183,17 @@ def test(method_name, A):
         print("  {}: not applicable".format("Determinant".rjust(WIDTH)))
 
 # List of method names to test.
-method_names = ["gramschmidt", "numpy"]
+orthogonalization_methods = ["gramschmidt"] + qr_factorization_methods
 
 BASE = 2
 PMAX = 11
-DIFF = 4
 
-# Test quadratic matrices.
-for p in range(PMAX):
-    m = pow(BASE, p)
-    A = random_bad_matrix(m, m)
-    for method_name in method_names:
-        test(method_name, A)
-
-# Test non-quadratic matrices.
-for p in range(PMAX):
-    n = pow(BASE, p)
-    m = n + DIFF
-    A = random_bad_matrix(m, n)
-    for method_name in method_names:
-        test(method_name, A)
+# Test the orthogonalization algorithms with quadratic (diff = 0)
+# matrices and with non-quadratic (diff = 4) matrices.
+for diff in [0, 4]:
+    for p in range(PMAX):
+        n = pow(BASE, p)
+        m = n + diff
+        A = random_bad_matrix(m, n)
+        for method_name in orthogonalization_methods:
+            test(method_name, A)
