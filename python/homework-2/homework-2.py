@@ -1,3 +1,7 @@
+# Authors:
+#  Karl Lindén <karl.linden.887@student.lu.se>
+#  Oscar Nilsson <erik-oscar-nilsson@live.se>
+
 import numpy as np
 import numpy.linalg as nl
 import numpy.random as nr
