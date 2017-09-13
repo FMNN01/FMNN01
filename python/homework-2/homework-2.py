@@ -75,10 +75,41 @@ class QRFactorization:
             v /= nl.norm(v, 2)
         return v
 
+    def givens(self):
+        """
+        QR factorize the matrix given to :meth:`__init__` by Givens
+        rotations.
+        """
+        Q = np.eye(self.m)
+        R = np.copy(self.A)
+
+        # Make entries in R successively zero. Iterate through the
+        # columns begin introducing zeros from the last row up until the
+        # main diagonal.
+        for i in range(self.n):
+            for k in range(self.m - 1, i, -1):
+                # We want to make eliminate entry k,i so construct a
+                # Givens rotate rows i and k so that the desired entry
+                # is zero.
+                a = R[i,i]
+                b = R[k,i]
+                G = np.array([[ a, b],
+                              [-b, a]]) / np.hypot(a, b)
+
+                # Only operate on the necessary parts of the matrices,
+                # multiplying with a full blown Givens rotation gives
+                # extremely poor performance. The Givens rotation matrix
+                # is mostly an identity matrix, so this is possible.
+                R[(i,k),:] = np.dot(G, R[(i,k),:])
+                Q[:,(i,k)] = np.dot(Q[:,(i,k)], G.T)
+
+        return Q, R
+
 # A list of implement QR factorization methods.
 qr_factorization_methods = [
     "numpy",
-    "householder"
+    "householder",
+    "givens"
 ]
 
 class QROrthogonalizationWrapper:
