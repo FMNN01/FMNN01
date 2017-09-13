@@ -2,6 +2,10 @@ import numpy as np
 import numpy.linalg as nl
 import numpy.random as nr
 
+# Answer to "What is meant by ”Gram-Schmidt is unstable”?":
+# Run this program. It will output that Gram-Schmidt performs badly with
+# almost all the random matrices it is fed with.
+
 class QRFactorization:
     """
     QR factorize an (m,n) matrix in different ways.
@@ -80,6 +84,9 @@ class QRFactorization:
         QR factorize the matrix given to :meth:`__init__` by Givens
         rotations.
         """
+        # "Inspiration" for this algorithm comes from:
+        #   https://en.wikipedia.org/wiki/Givens_rotation
+
         Q = np.eye(self.m)
         R = np.copy(self.A)
 
