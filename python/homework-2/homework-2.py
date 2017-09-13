@@ -26,9 +26,59 @@ class QRFactorization:
         """
         return nl.qr(self.A)
 
+    def householder(self):
+        """
+        QR factorize the matrix given to :meth:`__init__` using
+        Householder reflections.
+        """
+        # The algorithm successively computes Q and R. These are the
+        # start values. Note that np.copy is needed to not overwrite the
+        # A matrix.
+        Q = np.eye(self.m)
+        R = np.copy(self.A)
+
+        for j in range(self.n):
+            # Find a unit vector that makes only the first entry of the
+            # first column of the jj submatrix non-zero.
+            B = R[j:,j:]
+            vhat = self._householder(B)
+
+            # Reflect the lower part of the remaining R matrix. Start at
+            # column j, since the first j-1 columns all have zeroes
+            # in the lower part. This could have been a matrix
+            # multiplication, but iteration over the columns is faster.
+            for k in range(j, self.n):
+                R[j:,k] -= 2 * vhat * np.inner(vhat, R[j:,k])
+
+            # Reflect the right part of the Q matrix. This is the same
+            # as multiplying together Q with (I-vv^T) from the right,
+            # but this iteration is faster. Here
+            #   v = (0, 0, ..., 0, vhat]
+            # is the m-vector which is vhat, but with leading zeroes.
+            # (vhat is an m-j vector).
+            for i in range(self.m):
+                Q[i,j:] -= 2 * np.inner(Q[i,j:], vhat) * vhat
+
+        return Q, R
+
+    def _householder(self, A):
+        """
+        Find a unit vector such that when the first column of A is
+        reflected along v the result is a (column) vector whose only
+        non-zero entry is the first one.
+        """
+        m = A.shape[0]
+        a = A[:,0]
+        ahat = np.array([nl.norm(a, 2)] + (m-1)*[0])
+        v = ahat - a
+        if not np.allclose(v, 0):
+            v /= nl.norm(v, 2)
+        return v
+
 # A list of implement QR factorization methods.
 qr_factorization_methods = [
-    "numpy"
+    "numpy",
+    "householder"
 ]
 
 class QROrthogonalizationWrapper:
@@ -148,25 +198,26 @@ def test_result(message, value, expected):
     # Print the result.
     print("  {}: {} {}".format(message.rjust(WIDTH), score, diff))
 
-def test(method_name, A):
+def test_qr_factorization_results(A, Q, R):
     """
-    Tests an orthogonalization method of the Orthogonalization class by
-    feeding it with a random matrix of a given shape.
+    Summarize the result of a QR factorization.
 
-    :param method_name: the name of the method to test, e.g.
-    "gramschmidt"
-    :type method_name: str
-    :param A: the matrix to test
-    :type A: numpy.ndarray
+    :param A: the original matrix
+    :type A: np.ndarray
+    :param Q: the orthogonal matrix
+    :type Q: np.ndarray
+    :param R: the upper rectangular matrix
+    :type R: np.ndarray
     """
-    # Compute orthogonalization.
-    orth = Orthogonalization(A)
-    method = getattr(orth, method_name)
-    Q = method()
+    test_result("A = QR", np.dot(Q, R), A)
 
-    print("Random ({},{}) matrix with {}:".format(
-        A.shape[0], A.shape[1], method_name))
+def test_orthogonalization_results(Q):
+    """
+    Summarize the result of an orthogonalization.
 
+    :param Q: the result of the orthogonalization
+    :type Q: np.ndarray
+    """
     test_result("2-norm", nl.norm(Q, 2), 1)
 
     QTQ = np.dot(Q.T, Q)
@@ -182,18 +233,63 @@ def test(method_name, A):
     else:
         print("  {}: not applicable".format("Determinant".rjust(WIDTH)))
 
-# List of method names to test.
-orthogonalization_methods = ["gramschmidt"] + qr_factorization_methods
+def test_qr_factorization(method_name, A):
+    """
+    Test a QR factorization method of the QRFactorization class.
+
+    :param method_name: the name of the method to test, e.g.
+    "gramschmidt"
+    :type method_name: str
+    :param A: the matrix to test
+    :type A: numpy.ndarray
+    """
+    # Be pollite and print what we are doing.
+    print("QR factorizing random ({},{}) matrix with {}:".format(
+        A.shape[0], A.shape[1], method_name))
+
+    # Perform QR factorization.
+    qrf = QRFactorization(A)
+    method = getattr(qrf, method_name)
+    Q, R = method()
+
+    test_qr_factorization_results(A, Q, R)
+    test_orthogonalization_results(Q)
+
+def test_orthogonalization(method_name, A):
+    """
+    Test an orthogonalization method of the Orthogonalization class.
+
+    :param method_name: the name of the method to test, e.g.
+    "gramschmidt"
+    :type method_name: str
+    :param A: the matrix to test
+    :type A: numpy.ndarray
+    """
+    # Be pollite and print what we are doing.
+    print("Orthogonalizing random ({},{}) matrix with {}:".format(
+        A.shape[0], A.shape[1], method_name))
+
+    # Compute orthogonalization.
+    orth = Orthogonalization(A)
+    method = getattr(orth, method_name)
+    Q = method()
+
+    test_orthogonalization_results(Q)
+
+# List of orthogonalization methods to test.
+orthogonalization_methods = ["gramschmidt"]
 
 BASE = 2
 PMAX = 11
 
-# Test the orthogonalization algorithms with quadratic (diff = 0)
-# matrices and with non-quadratic (diff = 4) matrices.
+# Test the algorithms with quadratic (diff = 0) matrices and with
+# non-quadratic (diff = 4) matrices.
 for diff in [0, 4]:
     for p in range(PMAX):
         n = pow(BASE, p)
         m = n + diff
         A = random_bad_matrix(m, n)
         for method_name in orthogonalization_methods:
-            test(method_name, A)
+            test_orthogonalization(method_name, A)
+        for method_name in qr_factorization_methods:
+            test_qr_factorization(method_name, A)
