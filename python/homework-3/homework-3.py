@@ -6,8 +6,12 @@
 #  Oscar Nilsson <erik-oscar-nilsson@live.se>
 #
 
+import time
+
 import numpy as np
+import numpy.linalg as nl
 import scipy.linalg as sl
+import matplotlib.pylab as plt
 
 ########################################################################
 ## TASK 1 ##############################################################
@@ -26,6 +30,14 @@ with open(DATA_FILENAME) as f:
 
 T = np.vander(t, 5, increasing=True)
 
+# A list containing methods that implement solving the least squares
+# problem.
+lstsq_impls = []
+
+def lstsq_impl(func):
+    lstsq_impls.append(func)
+
+@lstsq_impl
 def solve_normal_equations():
     A = np.dot(T.T, T)
     b = np.dot(T.T, v)
@@ -49,6 +61,7 @@ def backwards_substitution(R, b):
     else:
         return np.array([am])
 
+@lstsq_impl
 def apply_qr_factorization():
     Q, R = sl.qr(T)
 
@@ -62,13 +75,48 @@ def apply_qr_factorization():
     # Perform backwards substitution.
     return backwards_substitution(R, b)
 
+@lstsq_impl
 def apply_svd():
-    pass
+    n = T.shape[1]
+    U, s, Vh = sl.svd(T)
+    b = np.dot(U.T, v)[:n] / s
+    return np.dot(Vh.T, b)
 
-# FIXME: do something w/ this
-ahat1 = solve_normal_equations()
-ahat2 = apply_qr_factorization()
-ahat3 = apply_svd()
-print(ahat1)
-print(ahat2)
+@lstsq_impl
+def apply_numpy_lstsq():
+    return nl.lstsq(T, v)[0]
+
+for func in lstsq_impls:
+    # Print name of this function, the result and the time it took.
+    clk1 = time.clock()
+    a = func()
+    clk2 = time.clock()
+    print("Function:", func.__name__)
+    print("  Result:", a)
+    print("    Time:", clk2 - clk1)
+    print()
+
+    # Convert the a vector to coeffecients and create a linspace for the
+    # t-axis.
+    c = list(a)
+    c.reverse()
+    X = np.linspace(min(t), max(t), 1000)
+
+    # Plot the data and the polynomial fit.
+    dataplot, = plt.plot(t, v, 'o')
+    dataplot.set_label('data')
+    polyplot, = plt.plot(X, np.polyval(c, X))
+    polyplot.set_label('p(x)')
+    plt.title(func.__name__)
+    plt.xlabel('t')
+    plt.ylabel('v')
+    plt.legend()
+    plt.grid()
+    plt.savefig(func.__name__ + ".png")
+    plt.close()
+
+########################################################################
+## TASK 2 ##############################################################
+########################################################################
+
 
