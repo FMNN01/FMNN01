@@ -1,3 +1,6 @@
 # python byte code
 *.pyc
 __pycache__
+
+# generated plots
+*.png
