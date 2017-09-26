@@ -3,7 +3,6 @@
 
 import numpy as np
 import scipy.linalg as sl
-import matplotlib.cm as cm
 import matplotlib.pylab as plt
 
 M = np.array([[ 5  , 0,  0, -1],
