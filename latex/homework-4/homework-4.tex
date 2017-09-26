@@ -135,7 +135,60 @@ For the code, refer to the appendix.
 
 \subsection*{Task 5}
 
-TBD
+Given a world-wide-web graph \(G = (V,E)\) that has \(r\) connected components,
+we can permute the vertices \(v_1,v_2,\dots,v_n\), into \(v'_1,v'_2,\dots,v'_n\)
+such that the first connected component of \(G\) contains
+\(v'_1,\dots,v'_{k_1}\), the second component contains
+\(v'_{k_1+1},\dots,v'_{k_2}\) and so on.
+Now the hyperlink takes the form of a block triangular matrix
+\[
+  H =
+    \begin{pmatrix}
+      H_1    & 0      & \hdots & 0      \\
+      0      & H_2    & \hdots & 0      \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0      & 0      & \hdots & H_r
+    \end{pmatrix}
+\]
+Where \(H_1,H_2,\dots,H_r\) are the hyperlink matrices of the connected
+components.
+From the lecture we know that a hyperlink matrix always has an eigenvalue of
+\(1\).
+Thus, we can to each \(H_i\) find an eigenvector \(y_i\) such that
+\(H_iy_i = y_i\).
+Let
+\[
+  x_1 =
+    \begin{pmatrix}
+      y_1 \\
+      0 \\
+      \vdots \\
+      0
+    \end{pmatrix},
+  \quad
+  x_2 =
+    \begin{pmatrix}
+      0 \\
+      y_2 \\
+      \vdots \\
+      0
+    \end{pmatrix},
+  \quad
+  \dots,
+  \quad
+  x_r =
+    \begin{pmatrix}
+      0 \\
+      0 \\
+      \vdots \\
+      y_r
+    \end{pmatrix}.
+\]
+It is easily verified that \(Hx_i = x_i\) for all \(1 \le i \le r\).
+Since \(x_i^Tx_j = 0\) whenever \(i \ne j\) we have that \(x_1,\dots,x_r\) is a
+basis for an \(r\)-dimensional subspace of the eigenspace of the eigenvalue
+\(1\).
+
 
 \clearpage
 
