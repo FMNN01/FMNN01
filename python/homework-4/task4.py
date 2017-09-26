@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import numpy as np
-import numpy.linalg as nl
 import scipy.linalg as sl
 import matplotlib.cm as cm
 import matplotlib.pylab as plt
