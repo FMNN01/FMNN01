@@ -6,9 +6,9 @@ import scipy.linalg as sl
 import matplotlib.pylab as plt
 
 M = np.array([[ 5  , 0,  0, -1],
-              [ 1  , 0, -3,  1],
+              [ 1  , 0, -2,  1],
               [-1.5, 1, -2,  1],
-              [-1  , 5,  3, -3]])
+              [-1  , 3,  1, -3]])
 m = M.shape[0]
 
 def A(p):
@@ -48,15 +48,15 @@ for i in range(m):
     plt.plot(X[0], Y[0], 'bo', color=c)
     plt.plot(X[-1], Y[-1], 'bo', color=c)
 
-
-# Modify the axes to give a good picture. Also ax is needed in the
-# circle creating for loop below.
+# We want to draw circles so keep the aspect ratio equal.
 ax = plt.gca()
-ax.set_xlim(-13, 7)
-ax.set_ylim(-10, 10)
 ax.set_aspect('equal', adjustable='box')
 
-# Draw all Gerschgorin circles.
+# Draw all Gerschgorin circles and compute sensible limits for the axes.
+xmin = float("inf")
+xmax = float("-inf")
+ymin = float("inf")
+ymax = float("-inf")
 for i in range(m):
     # The center is the element on the diagonal.
     center = (M[i,i].real, M[i,i].imag)
@@ -74,6 +74,16 @@ for i in range(m):
             color=get_color(i),
             fill=False)
     ax.add_artist(circle)
+
+    # Update the axes limits so that this circle fits.
+    xmin = min(xmin, center[0] - radius)
+    xmax = max(xmax, center[0] + radius)
+    ymin = min(ymin, center[1] - radius)
+    ymax = max(ymax, center[1] + radius)
+
+# Set the limits of the axes.
+ax.set_xlim(xmin, xmax)
+ax.set_ylim(ymin, ymax)
 
 # Add a grid and save the figure.
 plt.grid()
