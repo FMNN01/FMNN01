@@ -23,7 +23,64 @@
 
 \subsection*{Task 1}
 
-TBD
+The assumption that
+\[
+  A = \begin{pmatrix}
+    a_{11} & w^T \\
+    w      & A_1
+  \end{pmatrix}
+\]
+is positive definite means that
+\[ x^T A x \ge 0 \]
+for all \(x \in \mathbb{R}^n\) with equality if and only if \(x = 0\).
+In particular
+\[
+  e_1^T A e_1
+    = e_1^T
+      \begin{pmatrix}
+        a_{11} \\
+        w
+      \end{pmatrix}
+    = a_{11}
+    > 0
+\]
+where \(e_1 = (1,0,0,\dots,0)\).
+
+Now consider any vector \(y \in \mathbb{R}^{n-1}\) and let
+\[
+  x = \begin{pmatrix}
+    0 \\
+    y
+  \end{pmatrix}.
+\]
+We now have that
+\[
+  x^T A x
+    =
+      \begin{pmatrix}
+        0 & y^T
+      \end{pmatrix}
+      \begin{pmatrix}
+        a_{11} & w^T \\
+        w      & A_1
+      \end{pmatrix}
+      \begin{pmatrix}
+        0 \\
+        y
+      \end{pmatrix}
+    =
+      \begin{pmatrix}
+        0 & y^T
+      \end{pmatrix}
+      \begin{pmatrix}
+        w^T y \\
+        A_1 y
+      \end{pmatrix}
+    = y^T A_1 y
+    \ge 0
+\]
+with equality if and only if \(x = 0\), but this happens if and only if
+\(y = 0\), showing that \(A_1\) is positive definite.
 
 
 \subsection*{Task 2}
