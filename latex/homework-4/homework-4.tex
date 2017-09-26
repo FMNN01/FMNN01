@@ -85,7 +85,33 @@ with equality if and only if \(x = 0\), but this happens if and only if
 
 \subsection*{Task 2}
 
-TBD
+Let \(A = (a_{ij})\) be strictly diagonally dominant and suppose
+\[ Ax = 0 \]
+where \(x = (x_j) \ne 0\).
+This implies that
+\[ \sum_{j=1}^n a_{ij} x_j = 0 \]
+for all \(i = 1, \dots, n\).
+By the assumption that \(x \ne 0\) there is an \(i_1\) such that
+\(x_{i_1} \ne 0\).
+For a fixed \(i_1\) it follows that
+\[ \sum_{j \ne i_1} a_{i_1j} x_j = -a_{i_1i_1}x_{i_1} \]
+By the assumption on \(A\) and the triangle inequality we have
+\[
+  \sum_{j \ne i_1} |a_{i_1j}| |x_j|
+    \ge \left| \sum_{j \ne i_1} a_{i_1j} x_j \right|
+    = |a_{i_1i_1}| |x_{i_1}|
+    > \sum_{j \ne i_1} |a_{i_1j}| |x_{i_1}|.
+\]
+In particular there is an \(i_2 \ne i_1\) such that \(|x_{i_2}| > |x_{i_1}|\).
+Repeating this process \(n\) times we get a finite sequence
+\(i_1, i_2, \dots, i_{n+1}\) that fulfills
+\[ |x_{i_1}| < |x_{i_2}| < \dots < |x_{i_n}| < |x_{i_{n+1}}|. \]
+By the pigeonhole principle \(i_r = i_s\) for some \(r < s\).
+Now we arrive at the contradiction
+\[ |x_{i_r}| < |x_{i_s}| = |x_{i_r}|. \]
+This means the assumption that \(x \ne 0\) is false and consequently that
+\(Ax = 0\) only has the trivial solution.
+Hence, \(A\) is invertible.
 
 
 \subsection*{Task 3}
