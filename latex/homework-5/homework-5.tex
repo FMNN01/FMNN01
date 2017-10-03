@@ -28,7 +28,90 @@ TBD
 
 \subsection*{Task 2}
 
-TBD
+Let \(A \in \mathbb{C}^{m \times m}\) be tridiagonal with all its superdiagonal
+entries are non-zero.
+Then
+\[
+  A =
+    \begin{pmatrix}
+      a_1    & b_2    & 0      & \cdots & 0       & 0       & 0      \\
+      c_1    & a_2    & b_3    & \cdots & 0       & 0       & 0      \\
+      0      & c_2    & a_3    & \cdots & 0       & 0       & 0      \\
+      \vdots & \vdots & \vdots & \ddots & \vdots  & \vdots  & \vdots \\
+      0      & 0      & 0      & \cdots & a_{m-2} & b_{m-1} & 0      \\
+      0      & 0      & 0      & \cdots & c_{m-2} & a_{m-1} & b_m    \\
+      0      & 0      & 0      & \cdots & 0       & c_{m-1} & a_m
+    \end{pmatrix}
+\]
+where \(b_k \ne 0\) for all \(k\).
+Let
+\[ f: \mathbb{C} \ni x_1 \mapsto (x_1,x_2,\dots,x_m) \in \mathbb{C} \]
+where the components are defined recursively by
+\[
+  x_2 = - \frac{a_1 x_1}{b_2}
+  \quad \text{and} \quad
+  x_k = - \frac{c_{k-2}x_{k-2} + a_{k-1}x_{k-1}}{b_k}, \enspace 3 \le k \le m.
+\]
+
+By induction it can easily be shown that \(f\) is linear, although this is a
+very tedious task.
+Therefore we leave the proof of this to the reader.
+
+Now suppose \(x = (x_1, x_2, \dots, x_m)\) is a vector in the null space,
+\(\nspace(A)\), of \(A\).
+Then it holds that
+\[
+  \begin{cases}
+                      a_1 x_1         + b_2 x_2 &= 0, \\
+    c_1 x_1         + a_2 x_2         + b_3 x_3 &= 0, \\
+                                                &\vdots \\
+    c_{k-2} x_{k-2} + a_{k-1} x_{k-1} + b_k x_k &= 0, \\
+                                                &\vdots \\
+    c_{m-2} x_{m-2} + a_{m-1} x_{m-1} + b_m x_m &= 0. \\
+  \end{cases}
+\]
+By an induction argument it is seen that \(x = f(x_1)\).
+This shows that
+\[ \nspace(A) \subseteq f(\mathbb{C}) \]
+and because \(f(\mathbb{C})\) is a one-dimensional subspace of \(\mathbb{C}^m\),
+it follows that \(\nspace(A)\) is atmost one-dimensional.
+An application of the dimension theorem gives that \(\rank(A) \ge m - 1\) for
+any tridiagonal complex matrix whose superdiagonal entries are non-zero.
+
+Now let \(A\) be tridiagonal and hermitean with non-zero superdiagonal entries.
+By applying the previous result to \(A - \lambda I\) we have that
+\[ \rank(A - \lambda I) \ge m-1 \]
+for all \(\lambda \in \mathbb{C}\).
+Lastly, because any hermitean matrix has an orthogonal basis of eigenvectors it
+follows that the geometric and algebraic multiplicity of the eigenvalues are
+equal, but because all eigenvalues have multiplicity one, it also follows that
+every eigenvalue has algebraic multiplicity one.
+Thus, the eigenvalues are distinct.
+
+
+\begin{comment}
+The function \(f\) is linear, as is now shown with induction.
+It shall be shown that
+\begin{equation}\label{eq:f-linear-kth-component}
+  (f(sx_1 + ty_1))_k = (sf(x_1) + tf(y_1))_k
+\end{equation}
+for all \(s, t, x_1, y_1 \in \mathbb{C}\) and \(1 \le k \le m\).
+From this it then follows that
+\[ f(sx_1 + ty_1) = sf(x_1) + tf(y_1) \]
+i.e. that \(f\) is linear.
+Firstly,
+\[ (f(sx_1 + ty_1))_1 = sx_1 + ty_1 = (sf(x_1) + tf(y_1))_1. \]
+Secondly,
+\begin{align*}
+  (f(sx_1 + ty_1))_2
+    &= -\frac{a_1(sx_1 + ty_1)}{b_2} \\
+    &= s\left(-\frac{a_1x_1}{b_2}\right) + t\left(-\frac{a_1y_1}{b_2}\right) \\
+    &= (sf(x_1) + tf(y_1))_2
+\end{align*}
+Suppose that \eqref{eq:f-linear-kth-component} holds for \(k=l-2\) and
+\(k=l-1\).
+Then one has
+\end{comment}
 
 
 \subsection*{Task 3}
