@@ -26,12 +26,16 @@
 \subsection*{Task 1}
 
 The implementation can be found in the appendix.
-We test 64 random symmetric matrices each for the number of rows of the matrix
+We tested 64 random symmetric matrices each for the number of rows of the matrix
 equal to 64, 128, 196, \(\dots\), 512.
 The script prints the matrices for which the eigenvalues differ, but during our
 tests no such matrices were printed.
 Therefore we are confident that the algorithm and our implementation of it
 works.
+
+We also tested the method on an orthogonal and symmetric matrix, and the result
+was what we did expect, because the assertions in the code was not triggered.
+See the implementation for details (it is commented).
 
 Below is a table summarizing the results.
 The iteration count is the number of iterations that were necessary to bring the
@@ -142,6 +146,8 @@ Then one has
 \subsection*{Task 3}
 
 TBD
+
+\clearpage
 
 
 \subsection*{Appendix}

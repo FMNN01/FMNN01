@@ -103,6 +103,31 @@ def qrmwrsad(A, apply_hessenberg=True, rtol=1e-8):
         return list(A[diagonal]), iteration_count
 
 if __name__ == '__main__':
+    # Test the method on a symmetric orthogonal matrix. Note that if Q
+    # has orthonormal columns, then 2*Q*Q.T - I is a symmetric
+    # orthogonal matrix.
+    m = 32
+    r = 8
+    B = nr.rand(m, m)
+    Q, R = sl.qr(B)
+    Q = Q[:,:3]
+    A = 2*np.dot(Q, Q.T) - np.eye(m)
+
+    # Mathematically it can be shown that A is orthogonal and symmetric,
+    # but let's just make sure nothing has been messed up.
+    assert np.isclose(A, A.T).all()
+    assert np.isclose(np.dot(A, A.T), np.eye(m)).all()
+
+    # When we now apply the method it should only give +1 and -1 because
+    # those are the eigenvalues of orthogonal symmetric matrices. This
+    # is because orthogonal matrices have unit eigenvalues, but since
+    # symmetric matrices have real eigenvalues, the only possibility is
+    # that the eigenvalues are either +1 and -1.
+    eigenvalues, iteration_count = qrmwrsad(A)
+    assert np.logical_or(
+            np.isclose(eigenvalues, 1),
+            np.isclose(eigenvalues, -1)).all()
+
     def random_symmetric_matrix(m):
         """
         Generate a symmetric random mxm matrix.
