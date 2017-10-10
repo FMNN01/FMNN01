@@ -2,6 +2,8 @@
 
 \input{../common/common.tex}
 
+\usepackage{lscape}
+
 
 \begin{document}
 
@@ -36,17 +38,17 @@ The iteration count is the number of iterations that were necessary to bring the
 relative error to \(10^{-8}\).
 The mean, min and max for our implementation and Scipy's eigenvalue solver are
 self-describing.
-These are measured in the same unit as the values returned by Python's
-\texttt{time.clock}.
-
-% TBD: insert the generated table here
+These are measured in seconds.
 
 The average number of iterations needed seems to grow linearly with the number
-of rows and that holds for the required time as well.
-The same conclusion can be drawn for Scipy's solver.
-The difference between the implementations is the real time it takes to compute
-the eigenvalues.
-Not surprisingly, our implementation is one order magnitude slower.
+of rows, but the complexity seems to be superlinear.
+Scipy's solver on the other hand has a more manageable complexity.
+Furthermore, our implementation is always at least an order of magnitude slower
+than Scipy's.
+
+\begin{landscape}
+  \include{task1}
+\end{landscape}
 
 
 \subsection*{Task 2}
