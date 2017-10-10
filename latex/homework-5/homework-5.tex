@@ -23,7 +23,30 @@
 
 \subsection*{Task 1}
 
-TBD
+The implementation can be found in the appendix.
+We test 64 random symmetric matrices each for the number of rows of the matrix
+equal to 64, 128, 196, \(\dots\), 512.
+The script prints the matrices for which the eigenvalues differ, but during our
+tests no such matrices were printed.
+Therefore we are confident that the algorithm and our implementation of it
+works.
+
+Below is a table summarizing the results.
+The iteration count is the number of iterations that were necessary to bring the
+relative error to \(10^{-8}\).
+The mean, min and max for our implementation and Scipy's eigenvalue solver are
+self-describing.
+These are measured in the same unit as the values returned by Python's
+\texttt{time.clock}.
+
+% TBD: insert the generated table here
+
+The average number of iterations needed seems to grow linearly with the number
+of rows and that holds for the required time as well.
+The same conclusion can be drawn for Scipy's solver.
+The difference between the implementations is the real time it takes to compute
+the eigenvalues.
+Not surprisingly, our implementation is one order magnitude slower.
 
 
 \subsection*{Task 2}
@@ -117,6 +140,11 @@ Then one has
 \subsection*{Task 3}
 
 TBD
+
+
+\subsection*{Appendix}
+
+\lstinputlisting{../../python/homework-5/task1.py}
 
 
 \end{document}
