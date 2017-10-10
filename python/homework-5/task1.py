@@ -43,7 +43,7 @@ def qrmwrsad(A, apply_hessenberg=True, rtol=1e-8):
     # Handle the trivial case of a 1x1 matrix. This guarantees that the
     # deflation ends.
     if m == 1:
-        return [A[0,0]], 0
+        return [A[0, 0]], 0
 
     if apply_hessenberg:
         A = sl.hessenberg(A)
