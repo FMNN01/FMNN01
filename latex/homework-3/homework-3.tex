@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt]{article}
+
+\input{../common/common.tex}
+
+
+\begin{document}
+
+
+
+\title{Homework 1 \\ NUMA11}
+\author{
+  Karl \textsc{Lind\'{e}n} \\
+  <karl.linden.887@student.lu.se> \\
+  Oscar \textsc{Nilsson} \\
+  <erik-oscar-nilsson@live.se>
+}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+
+\section*{Task 1}
+
+\section*{Task 2}
+Let \( A = U \Sigma V^T \) where \(u_j\) is the j:th column of \( 
+U\). Now we have 
+\[ V \Sigma^{-1}U^T u_j = V \Sigma^{-1} e_j. \]
+By taking the norms on each side we have
+\[ \|V \sigma^{-1} \| = \| \sigma^{-1} \|, \]
+because \( V \) is orthogonal.
+
+Thus, by choosing \( b = u_1\) and \( \delta(x)\) and \(\delta(b) \) 
+that 
+\begin{align*}
+\| x \| &= \frac{1}{\| \sigma_1 \| } \Leftrightarrow\\
+\|\delta x\| &= \frac{1}{\| \sigma_n \| } \Leftrightarrow\\
+\|b\| &= 1 \Leftrightarrow\\
+\|\delta b\| &= 1.
+\end{align*}
+Plugging this in we have,
+\begin{align*}
+\frac{\|\delta b\|}{\| x\|} &= \frac{\|\sigma_1\|}{\|\sigma_n\|}\\
+&= \kappa(A) \frac{\| \delta b\|}{\|b\|}.
+\end{align*}
+as desired.
+
+\section*{Task 3}
+
+\appendix
+\section*{Task 1 and 3}
+\lstinputlisting[firstline = 9 
+]{../../python/homework-3/homework-3.py}
+\end{document}
