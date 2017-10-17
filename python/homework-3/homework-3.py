@@ -43,42 +43,13 @@ def solve_normal_equations():
     b = np.dot(T.T, v)
     return sl.solve(A, b)
 
-def backwards_substitution_test(R, b):
-    m = R.shape[0]
-    rmm = R[m-1, m-1]
-    r = R[:m-1, m-1] / rmm
-
-    am = b[m-1] / rmm
-
-    if m > 1:
-        bprime = b[:m-1] - r*b[m-1]
-        Rprime = R[:m-1, :m-1]
-        aprime = backwards_substitution(Rprime, bprime)
-
-        a = np.array(list(aprime) + [0])
-        a[m-1] = am
-        return a
-    else:
-        return np.array([am])
-
-
 def backwards_substitution(R, b):
-    m = R.shape[0]
-    rmm = R[m-1, m-1]
-    r = R[:m-1, m-1] / rmm
-
-    am = b[m-1] / rmm
-
-    if m > 1:
-        bprime = b[:m-1] - r*b[m-1]
-        Rprime = R[:m-1, :m-1]
-        aprime = backwards_substitution(Rprime, bprime)
-
-        a = np.array(list(aprime) + [0])
-        a[m-1] = am
-        return a
-    else:
-        return np.array([am])
+    n = R.shape[0]
+    a = np.zeros(n)
+    for m in reversed(range(n)):
+        a[m] = b[m] / R [m, m]
+        b[:m] -= a[m]*R[:m, m]
+    return a
 
 @lstsq_impl
 def apply_qr_factorization():
@@ -92,7 +63,7 @@ def apply_qr_factorization():
     b = np.dot(Q.T, v)[:n]
 
     # Perform backwards substitution.
-    return backwards_substitution_test(R, b)
+    return backwards_substitution(R, b)
 
 @lstsq_impl
 def apply_svd():
