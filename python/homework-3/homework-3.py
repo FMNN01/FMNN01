@@ -25,8 +25,8 @@ with open(DATA_FILENAME) as f:
     lines = [l.strip().split(',') for l in f.readlines()]
     A = [[float(l[0]), float(l[1])] for l in lines]
     A = np.array(A)
-    t = A[:,0]
-    v = A[:,1]
+    t = A[:, 0]
+    v = A[:, 1]
 
 T = np.vander(t, 5, increasing=True)
 
@@ -43,16 +43,35 @@ def solve_normal_equations():
     b = np.dot(T.T, v)
     return sl.solve(A, b)
 
-def backwards_substitution(R, b):
+def backwards_substitution_test(R, b):
     m = R.shape[0]
-    rmm = R[m-1,m-1]
-    r = R[:m-1,m-1] / rmm
+    rmm = R[m-1, m-1]
+    r = R[:m-1, m-1] / rmm
 
     am = b[m-1] / rmm
 
     if m > 1:
         bprime = b[:m-1] - r*b[m-1]
-        Rprime = R[:m-1,:m-1]
+        Rprime = R[:m-1, :m-1]
+        aprime = backwards_substitution(Rprime, bprime)
+
+        a = np.array(list(aprime) + [0])
+        a[m-1] = am
+        return a
+    else:
+        return np.array([am])
+
+
+def backwards_substitution(R, b):
+    m = R.shape[0]
+    rmm = R[m-1, m-1]
+    r = R[:m-1, m-1] / rmm
+
+    am = b[m-1] / rmm
+
+    if m > 1:
+        bprime = b[:m-1] - r*b[m-1]
+        Rprime = R[:m-1, :m-1]
         aprime = backwards_substitution(Rprime, bprime)
 
         a = np.array(list(aprime) + [0])
@@ -73,7 +92,7 @@ def apply_qr_factorization():
     b = np.dot(Q.T, v)[:n]
 
     # Perform backwards substitution.
-    return backwards_substitution(R, b)
+    return backwards_substitution_test(R, b)
 
 @lstsq_impl
 def apply_svd():
@@ -148,8 +167,8 @@ for func in lstsq_impls:
 
 H = sl.hilbert(50)
 U, s, Vh = sl.svd(H)
-b = U[:,0]
-delta_b = U[:,-1]
+b = U[:, 0]
+delta_b = U[:, -1]
 x = sl.solve(H, b)
 delta_x = sl.solve(H, delta_b)
 print("deviation in output:", sl.norm(delta_x) / sl.norm(x))
