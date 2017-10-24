@@ -108,9 +108,9 @@ if __name__ == '__main__':
         """
         return sl.hessenberg(random_symmetric_matrix(m))
 
-    def test_count_eig_negative(n_many_tests, m):
+    def test_count_eig_negative(nhmany_tests, m):
         """
-        Test function for the count_eig_negative.
+        Test function for count_eig_negative.
 
         :param n_many_times: number of random matrices we test.
         :type n_many_times: integer
@@ -130,7 +130,8 @@ if __name__ == '__main__':
                 print(our, sls)
                 sys.exit(1)
 
-    # Test all methods.
+    # Test all functions.
     test_count_eig_negative(100, 10)
+
     # FIXME: test count_eig_between
     # test find_eig_between
