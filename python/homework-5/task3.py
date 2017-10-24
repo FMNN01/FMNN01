@@ -10,7 +10,7 @@ import scipy.linalg as sl
 
 def count_eig_negative(A, x):
     """
-    We compute the sub matrices of A, to compute 
+    We compute the sub matrices of A, to compute
     the number of negative eigenvalues by counting the
     number of sign changes.
     :param A: a square matrix
@@ -20,7 +20,7 @@ def count_eig_negative(A, x):
     """
 
     m = A.shape[0]
-    
+
     # Expanding the minor determinants recursively.
     p0 = 1
     p1 = A[0, 0] - x
@@ -35,7 +35,7 @@ def count_eig_negative(A, x):
 def count_eig_between(A, a, b):
     """
     Count the matrix eigenvalues that lie in the interval (a,b].
-    
+
     :param A: the matrix whose eigenvalues to count
     :type A: np.ndarray
     :param a: the lower limit of the interval
@@ -56,20 +56,20 @@ def count_eig_between(A, a, b):
     if j > 0:
         return count_eig_between(A[:j+1, :j+1], a, b) + \
                count_eig_between(A[j+1:, j+1:], a, b)
-    # Here we remember that we count the number of eigenvalues less than a, 
+    # Here we remember that we count the number of eigenvalues less than a,
     # then we take away the interval less than b, i.e. (b, A].
     return count_eig_negative(A, b) - count_eig_negative(A, a)
 def find_eig_between(A, a, b, atol = 1.e-8):
     """
     Count the matrix eigenvalues that lie in the interval (a,b].
-    
+
     :param A: the matrix whose eigenvalues to count
     :type A: np.ndarray
     :param a: the lower limit of the interval
     :type a: float
     :param b: the upper limit of the interval
     :type b: float
-    :param atol: 
+    :param atol:
     :type: float
     """
     # We start by finding the midpoint. Then we see how many
@@ -93,7 +93,7 @@ if __name__ == '__main__<':
         """
         A = nr.rand(m, m)
         return (A + A.T)/2
-    
+
     def random_tridiagonal_matrix(m):
         """
         Generate a symetric trididagonal matrix
@@ -101,7 +101,7 @@ if __name__ == '__main__<':
         :type m: integer
         """
         return sl.hessenberg(random_symmetric_matrix(m))
-    
+
     def test_count_eig_negative(n_many_tests, m):
         """
         Test method for the count_eig_negative.
@@ -114,7 +114,7 @@ if __name__ == '__main__<':
             A = random_tridiagonal_matrix(m)
             x = nr.random()*2 - 1
             our = count_eig_negative(A, x)
-            sls = len([lamda for lamda in sl.eig(A)[0] if lamda <= x])  
+            sls = len([lamda for lamda in sl.eig(A)[0] if lamda <= x])
             if our != sls:
                 print("test_count_eig_negative failed")
                 print(A)
@@ -123,4 +123,3 @@ if __name__ == '__main__<':
                 print(our, sls)
                 sys.exit(1)
     test_count_eig_negative(100, 10)
-    
