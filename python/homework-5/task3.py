@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # encoding: utf-8
 
 # System imports.
@@ -10,9 +11,9 @@ import scipy.linalg as sl
 
 def count_eig_negative(A, x):
     """
-    We compute the sub matrices of A, to compute
-    the number of negative eigenvalues by counting the
-    number of sign changes.
+    We compute the sub matrices of A, to compute the number of negative
+    eigenvalues by counting the number of sign changes.
+
     :param A: a square matrix
     :type A: np.ndarray
     :param x: evaluation point for p(x)
@@ -59,6 +60,7 @@ def count_eig_between(A, a, b):
     # Here we remember that we count the number of eigenvalues less than a,
     # then we take away the interval less than b, i.e. (b, A].
     return count_eig_negative(A, b) - count_eig_negative(A, a)
+
 def find_eig_between(A, a, b, atol = 1.e-8):
     """
     Count the matrix eigenvalues that lie in the interval (a,b].
@@ -83,7 +85,7 @@ def find_eig_between(A, a, b, atol = 1.e-8):
         return find_eig_between(A, a, mid, atol = atol) + \
                find_eig_between(A, a, mid, atol = atol)
 
-if __name__ == '__main__<':
+if __name__ == '__main__':
     def random_symmetric_matrix(m):
         """
         Generate a symmetric random mxm matrix.
@@ -97,6 +99,7 @@ if __name__ == '__main__<':
     def random_tridiagonal_matrix(m):
         """
         Generate a symetric trididagonal matrix
+
         :param m: the desired dimension of the square matri x.
         :type m: integer
         """
@@ -104,7 +107,8 @@ if __name__ == '__main__<':
 
     def test_count_eig_negative(n_many_tests, m):
         """
-        Test method for the count_eig_negative.
+        Test function for the count_eig_negative.
+
         :param n_many_times: number of random matrices we test.
         :type n_many_times: integer
         :param m: size of the matrices we are testing.
@@ -122,4 +126,8 @@ if __name__ == '__main__<':
                 print(sl.eig(A)[0])
                 print(our, sls)
                 sys.exit(1)
+
+    # Test all methods.
     test_count_eig_negative(100, 10)
+    # FIXME: test count_eig_between
+    # FIXME: test find_eig_between
