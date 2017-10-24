@@ -105,33 +105,6 @@ for func in lstsq_impls:
     plt.savefig(func.__name__ + ".png")
     plt.close()
 
-
-########################################################################
-## TASK 2 ##############################################################
-########################################################################
-#
-# Let A = U \Sigma V^T where u_j is the j:th column of U.
-# Now we have
-#   V \inv{\Sigma} U^T u_j = V \inv{\Sigma} e_j
-#                          = V \inv{\sigma_j}
-# where \sigma_j is the j:th singular value of A, i.e.
-#   \Sigma = \diag{\sigma_1, \sigma_2, ..., \sigma_n}.
-# By taking the norms on each side we have
-#   ||V \inv{\sigma_j}|| = |\inv{\sigma_j}|
-# because V is orthogonal.
-# Thus, by choosing b = u_1 and \delta{b} = u_n we have since
-#   x = \pseudoinv{A} b = V \inv{\Sigma} U^T b
-# and similarly for \delta{x} and \delta{b} that
-#  ||x||         = 1/|\sigma_1|
-#  ||\delta{x}|| = 1/|\sigma_n|
-#  ||b||         = 1
-#  ||\delta{b}|| = 1
-# Plugging this in we have:
-#  ||\delta{x}|| / ||x|| = |\sigma_1|/|\sigma_n|
-#                        = \kappa(A) * ||\delta{b}|| / ||b||
-# as desired.
-#
-#
 ########################################################################
 ## TASK 3 ##############################################################
 ########################################################################

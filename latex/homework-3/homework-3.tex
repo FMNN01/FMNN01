@@ -6,8 +6,7 @@
 \begin{document}
 
 
-
-\title{Homework 1 \\ NUMA11}
+\title{Homework 3 \\ NUMA11}
 \author{
   Karl \textsc{Lind\'{e}n} \\
   <karl.linden.887@student.lu.se> \\
@@ -20,37 +19,56 @@
 
 \newpage
 
+
 \section*{Task 1}
-TBA
+
+See the appendix for the implementation.
+
 
 \section*{Task 2}
-Let \( A = U \Sigma V^T \) where \(u_j\) is the j:th column of \( 
-U\). Now we have 
-\[ V \Sigma^{-1}U^T u_j = V \Sigma^{-1} e_j. \]
-By taking the norms on each side we have
-\[ \|V \sigma^{-1} \| = \| \sigma^{-1} \|, \]
-because \( V \) is orthogonal.
 
-Thus, by choosing \( b = u_1\) and \( \delta x\) and \(\delta b \) 
-that 
-\begin{align*}
-\| x \| &= \frac{1}{\| \sigma_1 \| } \Leftrightarrow\\
-\|\delta x\| &= \frac{1}{\| \sigma_n \| } \Leftrightarrow\\
-\|b\| &= 1 \Leftrightarrow\\
-\|\delta b\| &= 1.
-\end{align*}
-Plugging this in we have,
-\begin{align*}
-\frac{\|\delta b\|}{\| x\|} &= \frac{\|\sigma_1\|}{\|\sigma_n\|}\\
-&= \kappa(A) \frac{\| \delta b\|}{\|b\|}.
-\end{align*}
+Let \(A = U \Sigma V^T\) be the singular value decomposition of \(A\) and let
+\(u_j\) be the j:th column of \(U\).
+Furthermore suppose the singular values are ordered so that
+\[ \sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_n. \]
+Now we have
+\[
+  A^{-1} u_j
+    = V \Sigma^{-1}U^T u_j
+    = V \Sigma^{-1} e_j
+    = V \sigma_j^{-1} e_j.
+\]
+By taking norms we have
+\[
+  \|A^{-1} u_j\|
+    = \|V \sigma_j^{-1} e_j\|
+    = \|\sigma_j^{-1} e_j\|
+    = \frac{1}{|\sigma_j|}, \]
+because \(V\) is orthogonal.
+Thus, by choosing \(b = u_1\) and \(\delta b = u_n\) we have
+\[
+  \|x\| = \|A^{-1}b\| = \frac{1}{|\sigma_1|}
+  \quad \text{and} \quad
+  \|\delta x\| = \|A^{-1} \delta b\| = \frac{1}{|\sigma_n|}.
+\]
+Furthermore \(\|b\| = \|\delta b\| = 1\).
+Plugging this in we have
+\[
+  \frac{\|\delta x\|}{\|x\|}
+    = \frac{|\sigma_1|}{|\sigma_n|}
+    = \kappa_2(A) \frac{\|\delta b\|}{\|b\|}.
+\]
 as desired.
 
 \section*{Task 3}
-TBA
 
+See the appendix for the implementation.
+
+
+\clearpage
 \appendix
-\section*{Task 1 and 3}
-\lstinputlisting[firstline = 9 
-]{../../python/homework-3/homework-3.py}
+\section{Code}
+
+\lstinputlisting[firstline = 9]{../../python/homework-3/homework-3.py}
+
 \end{document}
