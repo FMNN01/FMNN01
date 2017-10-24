@@ -47,48 +47,48 @@ cleanfiles += $(texfiles:.tex=.toc)
 
 all: all-local all-subdirs
 allsubdirs = $(addprefix all-,$(subdirs))
-all-local: pdf
+all-local: all-local-hook pdf-local
 all-subdirs: $(allsubdirs)
 $(allsubdirs): all-%: %
 	$(MAKE) -C $<
-.PHONY: all all-local all-subdirs $(allsubdirs)
+.PHONY: all all-local all-local-hook all-subdirs $(allsubdirs)
 
 
 clean: clean-local clean-subdirs
 cleansubdirs := $(addprefix clean-,$(subdirs))
-clean-local:
+clean-local: clean-local-hook
 	-rm -f $(cleanfiles)
 clean-subdirs: $(cleansubdirs)
 $(cleansubdirs): clean-%: %
 	$(MAKE) -C $< clean
-.PHONY: clean clean-local clean-subdirs $(cleansubdirs)
+.PHONY: clean clean-local clean-local-hook clean-subdirs $(cleansubdirs)
 
 
 dvi: dvi-local dvi-subdirs
 dvisubdirs := $(addprefix dvi-,$(subdirs))
-dvi-local: $(dvifiles)
+dvi-local: dvi-local-hook $(dvifiles)
 dvi-subdirs: $(dvisubdirs)
 $(dvisubdirs): dvi-%: %
 	$(MAKE) -C $< dvi
-.PHONY: dvi dvi-local dvi-subdirs $(dvisubdirs)
+.PHONY: dvi dvi-local dvi-local-hook dvi-subdirs $(dvisubdirs)
 
 
 pdf: pdf-local pdf-subdirs
 pdfsubdirs := $(addprefix pdf-,$(subdirs))
-pdf-local: $(pdffiles)
+pdf-local: pdf-local-hook $(pdffiles)
 pdf-subdirs: $(pdfsubdirs)
 $(pdfsubdirs): pdf-%: %
 	$(MAKE) -C $< pdf
-.PHONY: pdf pdf-local pdf-subdirs $(pdfsubdirs)
+.PHONY: pdf pdf-local pdf-local-hook pdf-subdirs $(pdfsubdirs)
 
 
 ps: ps-local ps-subdirs
 pssubdirs := $(addprefix ps-,$(subdirs))
-ps-local: $(psfiles)
+ps-local: ps-local-hook $(psfiles)
 ps-subdirs: $(pssubdirs)
 $(pssubdirs): ps-%: %
 	$(MAKE) -C $< ps
-.PHONY: ps ps-local ps-subdirs $(pssubdirs)
+.PHONY: ps ps-local ps-local-hook ps-subdirs $(pssubdirs)
 
 
 .DELETE_ON_ERROR:

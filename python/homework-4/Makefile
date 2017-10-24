@@ -20,6 +20,8 @@
 #
 #
 
+all-local-hook: task4.eps
+
 task4.eps: task4.py
 	$(PYTHON) $<
 
