@@ -10,16 +10,18 @@ import scipy.linalg as sl
 
 def count_eig_negative(A, x):
     """
-    Compute the determinants 
-    for the sub matrixes of A.
-
+    We compute the sub matrices of A, to compute 
+    the number of negative eigenvalues by counting the
+    number of sign changes.
     :param A: a square matrix
+    :type A: np.ndarray
+    :param x: evaluation point for p(x)
     :type x: float
     """
-    
+
     m = A.shape[0]
     
-    # Expanding the minor determinants, recursively
+    # Expanding the minor determinants recursively.
     p0 = 1
     p1 = A[0, 0] - x
     n = int(p1 <= 0)
@@ -50,13 +52,13 @@ def count_eig_between(A, a, b):
     # Boolean array representing the superdiagonal elements.
     super_diagonal = np.tri(m, k=1, dtype=bool) - np.tri(m, dtype=bool)
     isclose = list(np.isclose(A[super_diagonal], 0))
-    j = int(True in isclose)
+    j = isclose.index(True)
     if j > 0:
         return count_eig_between(A[:j+1, :j+1], a, b) + \
                count_eig_between(A[j+1:, j+1:], a, b)
     # Here we remember that we count the number of eigenvalues less than a, 
     # then we take away the interval less than b, i.e. (b, A].
-    return count_eig_negative(A, a) - count_eig_negative(A, b)
+    return count_eig_negative(A, b) - count_eig_negative(A, a)
 def find_eig_between(A, a, b, atol = 1.e-8):
     """
     Count the matrix eigenvalues that lie in the interval (a,b].
