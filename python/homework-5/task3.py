@@ -14,7 +14,7 @@ def count_eig_negative(A, x):
     We compute the sub-matrices of A - xI, to compute the number of
     negative eigenvalues by counting the number of sign changes.
 
-    :param A: a square matrix
+    :param A: a square tridiagonal matrix
     :type A: np.ndarray
     :param x: shift variable
     :type x: float
@@ -55,16 +55,18 @@ def count_eig_between(A, a, b):
     # Boolean array representing the superdiagonal elements.
     super_diagonal = np.tri(m, k=1, dtype=bool) - np.tri(m, dtype=bool)
     isclose = list(np.isclose(A[super_diagonal], 0))
-    j = isclose.index(True)
-    if j > 0:
+
+    # Deflate the problem is possible, otherwise start counting now.
+    try:
+        j = isclose.index(True)
         return count_eig_between(A[:j+1, :j+1], a, b) + \
                count_eig_between(A[j+1:, j+1:], a, b)
+    except ValueError:
+        # Count the eigenvalues less than or equal to b, then subtract
+        # the count of the interval less than a, i.e. (-infty, a].
+        return count_eig_negative(A, b) - count_eig_negative(A, a)
 
-    # Here count the  eigenvalues less than or equal to
-    # b, then we take away the interval less than a , i.e. (b, A].
-    return count_eig_negative(A, b) - count_eig_negative(A, a)
-
-def find_eig_between(A, a, b, atol = 1.e-8):
+def find_eig_between(A, a, b, atol=1.e-8):
     """
     Count the matrix eigenvalues that lie in the interval (a,b].
 
@@ -85,8 +87,8 @@ def find_eig_between(A, a, b, atol = 1.e-8):
     elif mid - a <= atol:
         return [mid]
     else:
-        return find_eig_between(A, a, mid, atol = atol) + \
-               find_eig_between(A, a, mid, atol = atol)
+        return find_eig_between(A, a, mid, atol=atol) + \
+               find_eig_between(A, mid, b, atol=atol)
 
 if __name__ == '__main__':
     def random_symmetric_matrix(m):
@@ -108,16 +110,16 @@ if __name__ == '__main__':
         """
         return sl.hessenberg(random_symmetric_matrix(m))
 
-    def test_count_eig_negative(nhmany_tests, m):
+    def test_count_eig_negative(n, m):
         """
         Test function for count_eig_negative.
 
-        :param n_many_times: number of random matrices we test.
-        :type n_many_times: integer
-        :param m: size of the matrices we are testing.
+        :param n: number of random matrices to test
+        :type n: integer
+        :param m: size of the matrices to test
         :type m: int
         """
-        for i in range(n_many_tests):
+        for i in range(n):
             A = random_tridiagonal_matrix(m)
             x = nr.random()*2 - 1
             our = count_eig_negative(A, x)
@@ -130,8 +132,71 @@ if __name__ == '__main__':
                 print(our, sls)
                 sys.exit(1)
 
-    # Test all functions.
-    test_count_eig_negative(100, 10)
+    def test_count_eig_between(n, m):
+        """
+        Test function for count_eig_between.
 
-    # FIXME: test count_eig_between
-    # test find_eig_between
+        :param n: number of random matrices to test
+        :type n: integer
+        :param m: size of the matrices to test
+        :type m: int
+        """
+        for i in range(n):
+            A = random_tridiagonal_matrix(m)
+
+            # Randomize the interval.
+            endpoints = nr.random(2)
+            a = min(endpoints)
+            b = max(endpoints)
+
+            our = count_eig_between(A, a, b)
+            sls = len(
+                    [lamda for lamda in sl.eig(A)[0] if a < lamda <= b])
+            if our != sls:
+                print("test_count_eig_between failed")
+                print(A)
+                print(a)
+                print(b)
+                print(sl.eig(A)[0])
+                print(our, sls)
+                sys.exit(1)
+
+    def test_find_eig_between(n, m):
+        """
+        Test function for find_eig_between.
+
+        :param n: number of random matrices to test
+        :type n: integer
+        :param m: size of the matrices to test
+        :type m: int
+        """
+        for i in range(n):
+            A = random_tridiagonal_matrix(m)
+
+            # Randomize the interval.
+            endpoints = nr.random(2)
+            a = min(endpoints)
+            b = max(endpoints)
+
+            x = nr.random()*2 - 1
+            our = np.array(find_eig_between(A, a, b))
+            sls = [lamda for lamda in sl.eig(A)[0] if a < lamda <= b]
+
+            # The eigenvalues should be compared, so sort them to make
+            # the test independent of the returned order.
+            our.sort()
+            sls.sort()
+            if not np.isclose(sls, our).all():
+                print("test_find_eig_between failed")
+                print(A)
+                print(a)
+                print(b)
+                print(our, sls)
+                sys.exit(1)
+
+    # Test all functions.
+    N = 300
+    M = 30
+    test_count_eig_negative(N, M)
+    test_count_eig_between(N, M)
+    test_find_eig_between(N, M)
