@@ -25,7 +25,7 @@ CP ?= cp
 texfiles := homework-4.tex
 texinputs := task4.eps
 
+include Makefile.common
+
 task4.eps: ../../python/homework-4/task4.eps
 	$(CP) $< $@
-
-include Makefile.common
